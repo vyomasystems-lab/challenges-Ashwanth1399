@@ -45,5 +45,5 @@ async def test_mux(dut):
         dut.sel.value=sel
         await Timer(2, units='ns')
         dut.log.info(f'sel={sel:31} DUT={int(dut.out.value):31}')
-        assert dut.out.value == A+B, "Randomised test failed with: {A} + {B} = {SUM}".format(
+        assert dut.out.value == inp[sel], "Randomised test failed with: {A} + {B} = {SUM}".format(
             A=dut.a.value, B=dut.b.value, SUM=dut.sum.value
