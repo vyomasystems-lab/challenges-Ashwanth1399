@@ -43,5 +43,5 @@ async def test_mux(dut):
         sel=i
         dut.sel.value=sel
         await Timer(2, units='ns')
-        dut.log.info(f'sel={sel:31} DUT={int(dut.out.value):31}')
-        assert dut.out.value == inp[sel], "Randomised test failed with: {expected_out} = {out}".format(expected_out=inp[sel], out=dut.out.value)
+        dut.log.info(f'Sel={sel:2} EXpected_out={inp[sel]:2}  DUT={int(dut.out.value):2}')
+        assert dut.out.value == inp[sel], "Randomised test failed with:= {out} = {expected_out} ".format(out=dut.out.value, expected_out=inp[sel])
