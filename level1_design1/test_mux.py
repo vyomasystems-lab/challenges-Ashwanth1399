@@ -2,13 +2,12 @@
 
 import cocotb
 from cocotb.triggers import Timer
-
+import random
 @cocotb.test()
 async def test_mux(dut):
     """Test for mux2"""
     inp=[]
-    for i in range(31):
-        inp=[i]=random.randint(1,3)
+    inp=[random.randint(1,3) for i in range(31)]
     dut.inp0.value=inp[0]
     dut.inp1.value=inp[1]
     dut.inp2.value=inp[2]
@@ -45,5 +44,4 @@ async def test_mux(dut):
         dut.sel.value=sel
         await Timer(2, units='ns')
         dut.log.info(f'sel={sel:31} DUT={int(dut.out.value):31}')
-        assert dut.out.value == inp[sel], "Randomised test failed with: {A} + {B} = {SUM}".format(
-            A=dut.a.value, B=dut.b.value, SUM=dut.sum.value
+        assert dut.out.value == inp[sel], "Randomised test failed with: {expected_out} = {out}".format(expected_out=inp[sel], out=dut.out.value)
