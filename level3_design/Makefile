@@ -4,7 +4,7 @@ TOPLEVEL_LANG ?= verilog
 
 PWD=$(shell pwd)
 
-VERILOG_SOURCES = $(PWD)/APB_protocol.v               # provide your design path
+VERILOG_SOURCES = $(PWD)/apb_v3_sram.v               # provide your design path
 
 TOPLEVEL := apb_v3_sram # design file
 MODULE   := test  # test file
