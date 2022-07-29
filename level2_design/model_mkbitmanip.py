@@ -136,12 +136,12 @@ def bitmanip(mav_putvalue_instr, mav_putvalue_src1,mav_putvalue_src2, mav_putval
         mav_putvalue=(mav_putvalue<<1)|1
         return mav_putvalue
 
-   # if((func7 == "0010100") and (func3 == "101") and (opcode == "0110011")):
-   #     print('--SBEXT  14')
-   #     out= 1 & (mav_putvalue_src1 >> shamt1)
-   #    mav_putvalue=out & 0xffffffff
-    #    mav_putvalue=(mav_putvalue<<1)|1
-    #    return mav_putvalue
+    if((func7 == "0010100") and (func3 == "101") and (opcode == "0110011")):
+        print('--SBEXT  14')
+        out= 1 & (mav_putvalue_src1 >> shamt1)
+        mav_putvalue=out & 0xffffffff
+        mav_putvalue=(mav_putvalue<<1)|1
+        return mav_putvalue
 
     if((func7 == "0010100") and (func3 == "101") and (opcode == "0110011")):
         print('--GORC 15 (check)')
