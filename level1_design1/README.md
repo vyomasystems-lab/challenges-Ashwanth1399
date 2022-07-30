@@ -40,8 +40,7 @@ For the select line, the logic 12 should be ``01100`` instead of ``01101`` as in
 ## Design Fix
 Updating the design and re-running the test makes the test pass.
 5'b1100: out = inp12;
-
-
+![mux](https://user-images.githubusercontent.com/109474211/181925959-8b1aec9f-a471-4dd3-a95d-47fbaa36e213.JPG)
 
 ## Verification Strategy
 Randomizing all the input pins to values between 1 and 3, testing the expected_out and out by checking all the combination of sel pin.
