@@ -14,12 +14,12 @@ mav_putvalue_src1  = 0x0200ffff
 mav_putvalue_src2  = 0xf1020000
 mav_putvalue_src3  = 0x00023400
 mav_putvalue_instr = 0x40007033
-```
-```
-mav_putvalue_src1  = 0x0200ffff
-mav_putvalue_src2  = 0xf1020000
-mav_putvalue_src3  = 0x00023400
-mav_putvalue_instr = 0x28005033
+
+dut.mav_putvalue_src1.value = mav_putvalue_src1
+dut.mav_putvalue_src2.value = mav_putvalue_src2
+dut.mav_putvalue_src3.value = mav_putvalue_src3
+dut.EN_mav_putvalue.value = 1
+dut.mav_putvalue_instr.value = mav_putvalue_instr
 ```
 The assert statement is used for comparing the mkbitmanip's outut to the model_out.
 
