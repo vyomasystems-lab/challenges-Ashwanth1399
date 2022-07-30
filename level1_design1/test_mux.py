@@ -7,7 +7,7 @@ import random
 async def test_mux(dut):
     """Test for mux2"""
     inp=[]
-    inp=[random.randint(1,3) for i in range(31)]
+    inp=[random.randint(1,3) for i in range(30)]
     dut.inp0.value=inp[0]
     dut.inp1.value=inp[1]
     dut.inp2.value=inp[2]
@@ -38,10 +38,10 @@ async def test_mux(dut):
     dut.inp27.value=inp[27]
     dut.inp28.value=inp[28]
     dut.inp29.value=inp[29]
-    dut.inp30.value=inp[30]
-    for i in range (31):
+    
+    for i in range (30):
         sel=i
         dut.sel.value=sel
         await Timer(2, units='ns')
         dut.log.info(f'Sel={sel:2} Expected_out={inp[sel]:2}  DUT={int(dut.out.value):2}')
-        assert dut.out.value == inp[sel], "Randomised test failed with:= {out} = {expected_out} ".format(out=dut.out.value, expected_out=inp[sel])
+        assert dut.out.value == inp[sel], "Test failed with:= sel={sel}  expected_out= {expected_out} DUT={out}".format(out=dut.out.value, expected_out=inp[sel],sel=dut.sel.value)
