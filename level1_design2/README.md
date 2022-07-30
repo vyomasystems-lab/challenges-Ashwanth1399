@@ -32,7 +32,7 @@ assert dut.seq_seen.value == exp_out[i], "Overlap sequence not detected"
 - Test Inputs:inp_bit=1,0,1,1,1,0,1,1,1
 - Expected Output: seq_seen=0,0,0,0,1,0,0,0,1
 - Observed Output in the DUT dut.seqseen=0,0,0,0,1,0,0,0,0
-## Test Scenario 
+## Test Scenario 2
 - Test Inputs:inp_bit=1,0,1,1,0,1,1,1
 - Expected Output: seq_seen=0,0,0,0,1,0,0,1,0
 - Observed Output in the DUT dut.seqseen=0,0,0,0,1,0,0,0,0
