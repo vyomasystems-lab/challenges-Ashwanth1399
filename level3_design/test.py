@@ -8,7 +8,7 @@ async def test_write_read(dut):
     clock = Clock(dut.PCLK, 10, units="us")  # Create a 10us period clock on port clk
     cocotb.start_soon(clock.start())        # Start the clock
     addr=22
-    wdata=23
+    wdata= 2147483647
     # reset
     dut.PRESETn.value = 0
     await RisingEdge(dut.PCLK)
