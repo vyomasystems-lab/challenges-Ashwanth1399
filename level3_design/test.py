@@ -1,7 +1,3 @@
-import os
-import random
-from pathlib import Path
-
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge
@@ -9,49 +5,54 @@ from cocotb.triggers import RisingEdge, FallingEdge
 @cocotb.test()
 async def test_write_read(dut):
     """Test for seq detection """
-    clock = Clock(dut.P_clk, 10, units="us")  # Create a 10us period clock on port clk
+    clock = Clock(dut.PCLK, 10, units="us")  # Create a 10us period clock on port clk
     cocotb.start_soon(clock.start())        # Start the clock
     addr=22
     wdata=23
     # reset
-    dut.P_rst.value = 0
-    await RisingEdge(dut.P_clk)  
-    dut.P_rst.value = 1
-    await RisingEdge(dut.P_clk)
-    cocotb.log.info(f'reset completed')
-    
-    dut.P_addr.value = addr
-    dut.P_write.value= 1
-    dut.P_selx.value  = 1
-    dut.P_wdata.value= wdata
-    await RisingEdge(dut.P_clk)
+    dut.PRESETn.value = 0
+    await RisingEdge(dut.PCLK)
+    dut.PRESETn.value = 1
+    await RisingEdge(dut.PCLK)
+
+    dut.PSEL.value  = 0
+    dut.PENABLE.value  = 0
+    await RisingEdge(dut.PCLK)
+    cocotb.log.info(f'Idle')
+    await FallingEdge(dut.PCLK)
+    cocotb.log.info(f'Psel={dut.PSEL.value} Penable={dut.PENABLE.value}')
+
+    dut.PADDR.value = addr
+    dut.PWRITE.value= 1
+    dut.PSEL.value  = 1
+    dut.PWDATA.value= wdata
+    await RisingEdge(dut.PCLK)
     cocotb.log.info(f'setup')
+    await FallingEdge(dut.PCLK)
+    cocotb.log.info(f'Paddr={int(dut.PADDR.value)} PWdata={int(dut.PWDATA.value)} Psel={dut.PSEL.value} PWrite={dut.PWRITE.value}')
 
-    dut.P_enable.value=1
-    dut.P_ready.value =1
-    await RisingEdge(dut.P_clk)
+    dut.PENABLE.value=1
+    await RisingEdge(dut.PCLK)
     cocotb.log.info(f'access')
+    await FallingEdge(dut.PCLK)
+    cocotb.log.info(f'PSLVERR={dut.PSLVERR.value} Paddr={int(dut.PADDR.value)} PWdata={int(dut.PWDATA.value)}  Penable={(dut.PENABLE.value)}')
+    dut.PSEL.value=0
+    dut.PENABLE.value=0
+    await RisingEdge(dut.PCLK)
+    cocotb.log.info(f'Idle')
+    await FallingEdge(dut.PCLK)
+    cocotb.log.info(f'sel={dut.PSEL.value} enable={dut.PENABLE.value}')
 
-    dut.P_enable.value=0
-    dut.P_ready.value =0
-    await RisingEdge(dut.P_clk)
-    cocotb.log.info(f'idle')
-
-    dut.P_addr.value = 0
-    dut.P_write.value= 0
-    dut.P_selx.value  = 0
-    await RisingEdge(dut.P_clk)
-    cocotb.log.info(f'idle')
-
-    dut.P_addr.value = addr
-    dut.P_selx.value  = 1
-    await RisingEdge(dut.P_clk)
+    dut.PADDR.value = addr
+    dut.PWRITE.value= 0
+    dut.PSEL.value  = 1
+    await RisingEdge(dut.PCLK)
     cocotb.log.info(f'setup')
+    await FallingEdge(dut.PCLK)
+    cocotb.log.info(f'addr={int(dut.PADDR.value)} sel={dut.PSEL.value} PWrite={dut.PWRITE.value}')
 
-    dut.P_enable.value=1
-    dut.P_ready.value =1
-    await RisingEdge(dut.P_clk)
-    await RisingEdge(dut.P_clk)
-    cocotb.log.info(f'access')
-    cocotb.log.info(f'Wdata={(dut.P_wdata.value)} Rdata={(dut.P_rdata.value)}')
-    #assert dut.PRDATA.value == wdata, "wdata is not same as rdata"
+    dut.PENABLE.value=1
+    await RisingEdge(dut.PCLK)
+    await FallingEdge(dut.PCLK)
+    cocotb.log.info(f'PSLVERR={(dut.PSLVERR.value)} Pen={(dut.PENABLE.value)} Rred={dut.PREADY.value} Rdata={int(dut.PRDATA.value)}')
+    assert dut.PRDATA.value == wdata, "wdata is not same as rdata"
